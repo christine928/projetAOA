@@ -67,6 +67,33 @@ float * calcul_mediane(float ** tab, int taille)
 	
 }
 
+float calcul_mediane_total(float * tab, int taille)
+{
+	int i, j;
+	float rep, tmp;
+	//tri du tableau
+	for(i=taille; i>1; i--)
+	{
+		for(j=0; j<i-1; j++)
+		{
+			if(tab[j+1]<tab[j])
+			{
+				tmp=tab[j];
+				tab[j]=tab[j+1];
+				tab[j+1]=tmp;
+			}
+		}
+	}
+	if(NB_METAS%2==0)
+	{
+		rep=(tab[taille/2-1]+tab[taille/2])/2;//moyenne des deux valeurs encadrant la mediane
+	}
+	else
+		rep=tab[(taille-1)/2];
+		
+	return rep;
+}
+
 static void print_array (int n, complex_t * a) {
    int i;
 
@@ -142,5 +169,8 @@ int main (int argc, char *argv[]) {
 	{
 		printf("%f\n", tab[i]);
 	}
+	float med=calcul_mediane_total(tab, repw+repm);
+	
+	printf("mediane des medianes : %f\n", med);
    return EXIT_SUCCESS;
 }
