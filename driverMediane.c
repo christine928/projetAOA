@@ -133,7 +133,7 @@ int main (int argc, char *argv[]) {
       /* warmup (repw repetitions in first meta, 1 repet in next metas) */
      // if (m == 0) {
      uint64_t t1=0, t2=0; 
-         for (i=0; i<repw; i++)
+         for (i=0; i<repw+repm; i++)
          {
 			  t1 = rdtsc();
             //sgemm (size, a, b, c);
@@ -143,14 +143,14 @@ int main (int argc, char *argv[]) {
 		
 		}
       /* measure repm repetitions */
-      for (i=0; i<repm; i++)
+    /*  for (i=0; i<repm; i++)
       {
 		  t1 = rdtsc();
          baseline (size , a , b );
          t2 = rdtsc();
          tabMediane[repw+i][m]=(t2 - t1) / ((float) size * (repw+repm));
 		
-	 }
+	 }*/
       
       /* print performance */
       printf ("%.2f cycles/FMA\n",(t2 - t1) / ((float) size * repm));
