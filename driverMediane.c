@@ -170,7 +170,7 @@ int main (int argc, char *argv[]) {
 		printf("%f\n", tab[i]);
 	}
 	float med=calcul_mediane_total(tab, repw+repm);
-	
+	//blop
 	printf("mediane des medianes : %f\n min des medianes=%f\n", med, tab[0]);
    return EXIT_SUCCESS;
 }
