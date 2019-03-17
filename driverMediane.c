@@ -3,7 +3,7 @@
 #include <stdint.h>
  #include "projet.h"
 
-#define NB_METAS 31
+#define NB_METAS 45
 
 extern uint64_t rdtsc ();
 
@@ -106,63 +106,51 @@ int main (int argc, char *argv[]) {
    if (argc != 4) {
       fprintf (stderr, "Usage: %s <size> <nb warmup repets> <nb measure repets>\n", argv[0]);
       abort();
-   }
+	}
 
-   int i, m;
+	int i, m;
 
-   /* get command line arguments */
-   int size = atoi (argv[1]); /* table size */
-   int repw = atoi (argv[2]); /* repetition number */
-   int repm = atoi (argv[3]); /* repetition number */
+	/* get command line arguments */
+	int size = atoi (argv[1]); /* table size */
+	int repw = atoi (argv[2]); /* repetition number */
+	int repm = atoi (argv[3]); /* repetition number */
 
-   float ** tabMediane=calloc(repw+repm, sizeof(float*));
-   for(i=0; i<repw+repm; i++)
+	float ** tabMediane=calloc(repw+repm, sizeof(float*));
+	for(i=0; i<repw+repm; i++)
 		tabMediane[i]=calloc(NB_METAS, sizeof(float));
 
 
-   for (m=0; m<NB_METAS; m++) {
-      /* allocate arrays */
-      complex_t *a = malloc (size * sizeof a[0]);
-      complex_t *b = malloc (size * sizeof b[0]);
+	for (m=0; m<NB_METAS; m++) {
+		/* allocate arrays */
+		complex_t *a = malloc (size * sizeof a[0]);
+		complex_t *b = malloc (size * sizeof b[0]);
       
-      /* init arrays */
-      srand(0);
-      init_array (size, a);
-      init_array (size, b);
+		/* init arrays */
+		srand(0);
+		init_array (size, a);
+		init_array (size, b);
 
-      /* warmup (repw repetitions in first meta, 1 repet in next metas) */
-     // if (m == 0) {
-     uint64_t t1=0, t2=0; 
-         for (i=0; i<repw+repm; i++)
-         {
-			  t1 = rdtsc();
-            //sgemm (size, a, b, c);
-            baseline (size , a , b );
-             t2 = rdtsc();
-         tabMediane[i][m]=(t2 - t1) / ((float) size * (repw+repm));
-		
-		}
-      /* measure repm repetitions */
-    /*  for (i=0; i<repm; i++)
-      {
-		  t1 = rdtsc();
-         baseline (size , a , b );
-         t2 = rdtsc();
-         tabMediane[repw+i][m]=(t2 - t1) / ((float) size * (repw+repm));
-		
-	 }*/
-      
-      /* print performance */
-      printf ("%.2f cycles/FMA\n",(t2 - t1) / ((float) size * repm));
-     
+		/* warmup (repw repetitions in first meta, 1 repet in next metas) */
+		// if (m == 0) {
+		uint64_t t1=0, t2=0; 
+		for (i=0; i<repw+repm; i++)
+		{
+			t1 = rdtsc();
+			//sgemm (size, a, b, c);
+			baseline (size , a , b );
+			t2 = rdtsc();
+			tabMediane[i][m]=(t2 - t1) / ((float) size * (repw+repm));
 	
-      /* print output */
-      //if (m == 0) print_array (n, c);
-
-      /* free arrays */
-      free (a);
-      free (b);
-   }
+		}
+    
+      
+		/* print performance */
+		printf ("%.2f cycles/FMA, %.2ld cycles\n",(t2 - t1) / ((float) size * repm), t2-t1);
+	
+		/* free arrays */
+		free (a);
+		free (b);
+	}
 	float * tab=calcul_mediane(tabMediane, repw+repm);
 	printf("taille mediane : \n");
 	for(i=0; i<repw+repm; i++)
@@ -171,7 +159,7 @@ int main (int argc, char *argv[]) {
 	}
 	float med=calcul_mediane_total(tab, repw+repm);
 	//blop
-	printf("mediane des medianes : %f\n min des medianes=%f\n", med, tab[0]);
-	printf(" %f calcul de S \n",(med - tab[0])/tab[0]);
-   return EXIT_SUCCESS;
+	printf("mediane des medianes : %f\n min des medianes= %f\n", med, tab[0]);
+	printf("calcul de S : %f  \n",(med - tab[0])/tab[0]);
+	return EXIT_SUCCESS;
 }
