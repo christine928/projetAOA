@@ -6,10 +6,10 @@ OBJS=driverMediane.o kernel.o rdtsc.o
 all:	baseline
 
 baseline:	$(OBJS)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ -lm
 
 kernel.o: kernel.c projet.h
-	$(CC) $(OPTFLAGS) -D $(OPT) -c $< -o $@
+	$(CC) $(OPTFLAGS) -D $(OPT) -c $< -o $@ -lm
 
 clean:
 	rm -rf $(OBJS) baseline
