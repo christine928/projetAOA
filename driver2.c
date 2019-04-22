@@ -82,7 +82,7 @@ float main_prof (int argc, char ** argv) {
    }
    qsort(tab,NB_METAS,sizeof(float),compare);
  
-	printf("%.2f;%.2f;%.2f\n", tab[0], tab[(NB_METAS-1)/2], tab[NB_METAS-1]);
+	//printf("%.2f;%.2f;%.2f\n", tab[0], tab[(NB_METAS-1)/2], tab[NB_METAS-1]);
    sleep(5);
 
    return tab[(NB_METAS-1)/2];
@@ -111,6 +111,6 @@ int main(int argc,char *argv[])
 		
 		sprintf(arg[2], "%d", i);
 		new_tab[i]=main_prof(argc, arg);
-		//printf("%.2f \n",new_tab[i]);
+		printf("%.2f \n",new_tab[i]);
 	}
 }
