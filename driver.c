@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
- #include "projet.h"
+#include "projet.h"
 
 #define NB_METAS 31
 
 extern uint64_t rdtsc ();
 
-//extern void sgemm (int n, float a[n][n], float b[n][n], float c[n][n]);
 extern void baseline (int n , complex_t a [ n ] , complex_t b [ n ]);
 
 static void init_array (int n, complex_t * a) {
@@ -55,23 +54,19 @@ int main (int argc, char *argv[]) {
       /* warmup (repw repetitions in first meta, 1 repet in next metas) */
       if (m == 0) {
          for (i=0; i<repw; i++)
-            //sgemm (size, a, b, c);
             baseline (size , a , b );
       } else {
          baseline (size , a , b );
-         //sgemm (size, a, b, c);
       }
 
       /* measure repm repetitions */
       uint64_t t1 = rdtsc();
       for (i=0; i<repm; i++)
          baseline (size , a , b );
-         //sgemm (size, a, b, c);
       uint64_t t2 = rdtsc();
 
       /* print performance */
-      printf ("%.2f cycles/FMA\n",
-              (t2 - t1) / ((float) size * repm));
+      printf ("%.2f cycles/FMA\n", (t2 - t1) / ((float) size * repm));
 
       /* print output */
       //if (m == 0) print_array (n, c);
