@@ -109,6 +109,6 @@ int main(int argc,char *argv[])
 	{
 		sprintf(arg[3], "%d", i+1);//i+1 pour ne pas avoir de inf lors de la premiere execution
 		new_tab[i]=main_prof(argc, arg);
-		//printf("%.2f \n",new_tab[i]);
+		printf("%.2f \n",new_tab[i]);
 	}
 }
