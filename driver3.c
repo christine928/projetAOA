@@ -35,12 +35,7 @@ static int compare(const void *a, const void *b)
 	return *x-*y;
 }
 float main_prof (int argc, char ** argv) {
-   /* check command line arguments */
-   //~ if (argc != 4) {
-      //~ fprintf (stderr, "Usage: %s <size> <nb warmup repets> <nb measure repets>\n", argv[0]);
-      //~ abort();
-   //~ }
-
+ 
    int i, m;
 
    /* get command line arguments */
@@ -112,11 +107,7 @@ int main(int argc,char *argv[])
 	float *new_tab=calloc(nbre,sizeof(float));
 	for(i=0;i<nbre;i++)
 	{
-		//char car=i+'0';
-		//itoa(i, arg[2], 10);
-		sprintf(arg[3], "%d", i+1);
-		//strcpy(arg[2], &car);
-		//printf("on appelle : %s, %s, %s, %s\n", arg[0],arg[1],arg[2],arg[3]);
+		sprintf(arg[3], "%d", i+1);//i+1 pour ne pas avoir de inf lors de la premiere execution
 		new_tab[i]=main_prof(argc, arg);
 		//printf("%.2f \n",new_tab[i]);
 	}
