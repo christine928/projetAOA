@@ -7,7 +7,6 @@
 
 extern uint64_t rdtsc ();
 
-//extern void sgemm (int n, float a[n][n], float b[n][n], float c[n][n]);
 extern void baseline (int n , complex_t a [ n ] , complex_t b [ n ]);
 
 static void init_array (int n, complex_t * a) {
@@ -26,15 +25,7 @@ float * calcul_mediane(float ** tab, int taille)
 	int i, j, k;
 	double tmp;
 	float * tabMed=calloc(taille, sizeof(float));
-	//~ printf("avant : \n");
-	//~ for(k=0; k<taille; k++)
-	//~ {
-		//~ for(i=0; i<NB_METAS; i++)
-			//~ printf("%f;", tab[k][i]);
-		//~ printf("\n");
-	//~ }
-	
-	//~ printf("\naprès : \n");
+
 	for(k=0; k<taille; k++)
 	{
 		//tri du tableau : il faut avoir un tableau trie des resultats des 31 metarepetitions faites pour la k eme fois de l'execution de baseline
@@ -50,11 +41,7 @@ float * calcul_mediane(float ** tab, int taille)
 				}
 			}
 		}
-		//~ for(i=0; i<NB_METAS; i++)
-			//~ printf("%f;", tab[k][i]);
-		//~ printf("\n");
-	
-	
+		
 		//determinisation de la mediane
 		if(NB_METAS%2==0)
 		{
@@ -131,16 +118,14 @@ int main (int argc, char *argv[]) {
 		init_array (size, b);
 
 		/* warmup (repw repetitions in first meta, 1 repet in next metas) */
-		// if (m == 0) {
+		
 		uint64_t t1=0, t2=0; 
 		for (i=0; i<repw+repm; i++)
 		{
 			t1 = rdtsc();
-			//sgemm (size, a, b, c);
 			baseline (size , a , b );
 			t2 = rdtsc();
 			tabMediane[i][m]=(t2 - t1) / ((float) size * (repw+repm));
-	
 		}
     
       
@@ -158,7 +143,6 @@ int main (int argc, char *argv[]) {
 		printf("%f\n", tab[i]);
 	}
 	float med=calcul_mediane_total(tab, repw+repm);
-	//blop
 	printf("mediane des medianes : %f\n min des medianes= %f\n", med, tab[0]);
 	printf("calcul de S : %f  \n",(med - tab[0])/tab[0]);
 	return EXIT_SUCCESS;
